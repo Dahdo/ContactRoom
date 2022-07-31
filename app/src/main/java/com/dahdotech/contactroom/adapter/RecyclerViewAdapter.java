@@ -52,8 +52,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             super(itemView);
             name = itemView.findViewById(R.id.row_name_text_view);
             occupation = itemView.findViewById(R.id.row_occupation_text_view);
-
-            name
         }
     }
 }
