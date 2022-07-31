@@ -1,6 +1,7 @@
 package com.dahdotech.contactroom;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -9,13 +10,10 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.dahdotech.contactroom.model.Contact;
 import com.dahdotech.contactroom.model.ContactViewModel;
 import com.google.android.material.snackbar.Snackbar;
-
-import java.util.Locale;
 
 public class NewContact extends AppCompatActivity {
     public static final String NAME_REPLY = "name_reply";
@@ -72,23 +70,9 @@ public class NewContact extends AppCompatActivity {
         //update and delete button
         updateButton = findViewById(R.id.update_button);
         deleteButton = findViewById(R.id.delete_button);
-        updateButton.setOnClickListener(view -> {
-            int id = contactId;
-            String name = enterName.getText().toString().trim();
-            String occupation = enterOccupation.getText().toString().trim();
+        updateButton.setOnClickListener(view -> edit(false));
 
-            if(TextUtils.isEmpty(name) || TextUtils.isEmpty(occupation)){
-                Snackbar.make(enterName, R.string.empty, Snackbar.LENGTH_SHORT).show();
-            }
-            else{
-                Contact contact = new Contact();
-                contact.setId(id);
-                contact.setName(name);
-                contact.setOccupation(occupation);
-                ContactViewModel.update(contact);
-                finish();
-            }
-        });
+        deleteButton.setOnClickListener(view -> edit(true));
 
         if(isEdit){
             saveInfoButton.setVisibility(View.GONE);
@@ -96,6 +80,26 @@ public class NewContact extends AppCompatActivity {
         else {
             updateButton.setVisibility(View.GONE);
             deleteButton.setVisibility(View.GONE);
+        }
+    }
+
+    private void edit(boolean isDelete) {
+        String name = enterName.getText().toString().trim();
+        String occupation = enterOccupation.getText().toString().trim();
+
+        if(TextUtils.isEmpty(name) || TextUtils.isEmpty(occupation)){
+            Snackbar.make(enterName, R.string.empty, Snackbar.LENGTH_SHORT).show();
+        }
+        else{
+            Contact contact = new Contact();
+            contact.setId(contactId);
+            contact.setName(name);
+            contact.setOccupation(occupation);
+            if(isDelete)
+                ContactViewModel.delete(contact);
+            else
+                ContactViewModel.update(contact);
+            finish();
         }
     }
 }
