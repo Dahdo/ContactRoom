@@ -19,6 +19,7 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements RecyclerViewAdapter.OnContactClickListener {
     public static final int NEW_CONTACT_ACTIVITY_REQUEST_CODE = 1;
+    public static final String CONTACT_ID = "contact_id";
     private ContactViewModel contactViewModel;
     FloatingActionButton fab;
     private RecyclerView recyclerView;
@@ -67,6 +68,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewAdapt
     public void onContactClick(int postion) {
         Contact contact = Objects.requireNonNull(contactViewModel.getAllContacts().getValue().get(postion));
         Log.d("Clicked","onCreateClick: " + contact.getName());
-        startActivity(new Intent(MainActivity.this, NewContact.class));
+        Intent intent= new  Intent(MainActivity.this, NewContact.class);
+        intent.putExtra(CONTACT_ID, contact.getId());
+        startActivity(intent);
     }
 }

@@ -19,7 +19,7 @@ public class NewContact extends AppCompatActivity {
     private EditText enterName;
     private EditText enterOccupation;
     private Button saveInfoButton;
-    //private ContactViewModel contactViewModel;
+    private ContactViewModel contactViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +29,8 @@ public class NewContact extends AppCompatActivity {
         enterOccupation = findViewById(R.id.enter_occupation);
         saveInfoButton = findViewById(R.id.save_button);
 
-//        contactViewModel = new ViewModelProvider.AndroidViewModelFactory(NewContact.this
-//                .getApplication()).create(ContactViewModel.class);
+        contactViewModel = new ViewModelProvider.AndroidViewModelFactory(NewContact.this
+                .getApplication()).create(ContactViewModel.class);
 
 
         saveInfoButton.setOnClickListener(view -> {
@@ -50,5 +50,14 @@ public class NewContact extends AppCompatActivity {
             }
             finish();
         });
+
+        Bundle data = getIntent().getExtras();
+        if(data != null){
+            int id = data.getInt(MainActivity.CONTACT_ID);
+            contactViewModel.get(id).observe(this, contact -> {
+                enterName.setText(contact.getName());
+                enterOccupation.setText(contact.getOccupation());
+            });
+        }
     }
 }
