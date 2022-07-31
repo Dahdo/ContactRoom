@@ -20,14 +20,12 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     public static final int NEW_CONTACT_ACTIVITY_REQUEST_CODE = 1;
     private ContactViewModel contactViewModel;
-    private TextView textView;
     FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        textView = findViewById(R.id.text);
         contactViewModel = new ViewModelProvider.AndroidViewModelFactory(MainActivity.this
                 .getApplication()).create(ContactViewModel.class);
 
@@ -37,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
                 builder.append(" - ").append(contact.getName()).append(" ").append(contact.getOccupation());
                 Log.d("contactTest", "onCreate: " + contact.getName());
             }
-            textView.setText(builder.toString());
+
         });
         fab = findViewById(R.id.add_conctact_fab);
         fab.setOnClickListener(view -> {
