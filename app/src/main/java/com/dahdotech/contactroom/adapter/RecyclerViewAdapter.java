@@ -16,10 +16,10 @@ import com.dahdotech.contactroom.model.Contact;
 import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
-    private LiveData<List<Contact>> contactList;
+    private List<Contact> contactList;
     private Context context;
 
-    public RecyclerViewAdapter(LiveData<List<Contact>> contactList, Context context) {
+    public RecyclerViewAdapter(List<Contact> contactList, Context context) {
         this.contactList = contactList;
         this.context = context;
     }
@@ -34,14 +34,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Contact  contact = contactList.getValue().get(position);
+        Contact  contact = contactList.get(position);
         holder.name.setText(contact.getName());
         holder.occupation.setText(contact.getOccupation());
     }
 
     @Override
     public int getItemCount() {
-        return contactList.getValue().size();
+        return contactList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
